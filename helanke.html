@@ -119,6 +119,8 @@ label.f input:focus,label.f textarea:focus{outline:0;border-color:var(--mocha);b
 .toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:12px 20px;border-radius:999px;z-index:95;opacity:0;transition:.25s;pointer-events:none;max-width:92vw;text-align:center}.toast.on{opacity:1;transform:translate(-50%,0)}
 :focus-visible{outline:2px solid var(--mocha);outline-offset:2px}
 .chip[aria-pressed=true] i{box-shadow:0 0 0 1.5px #fff}
+/* tighter vertical rhythm on phones (inline section paddings included) */
+@media(max-width:760px){section.block{padding:44px 0}main>section[style*="padding:0 0 9"],main>section[style*="padding:0 0 8"]{padding-bottom:44px!important}.sec-head h2{font-size:34px}.revs{margin-top:22px}}
 .pdpwrap{background:linear-gradient(180deg,var(--blush),var(--paper) 80%)}
 .crumbs{font-size:13px;color:var(--muted);padding:18px 0}.crumbs span{margin:0 8px;opacity:.5}
 .pdp{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:52px;padding-bottom:70px;align-items:start}
