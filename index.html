@@ -187,6 +187,22 @@ label.f input:focus,label.f textarea:focus{outline:0;border-color:var(--mocha);b
 @media(max-width:800px){.shopbg{grid-template-columns:minmax(0,1fr);padding:28px 22px}}
 .faqw{max-width:820px}
 .hfig video{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 50%;border-radius:28px;box-shadow:var(--shadow);background:var(--latte)}
+/* customer videos marquee */
+.ugc{padding:0 0 90px;overflow:hidden}
+.mq{margin-top:30px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.mqt{display:flex;gap:16px;width:max-content;animation:mq 70s linear infinite}
+.mq:hover .mqt,.mq:focus-within .mqt{animation-play-state:paused}
+@keyframes mq{to{transform:translateX(calc(-50% - 8px))}}
+.uc{position:relative;flex:0 0 230px;aspect-ratio:9/16;border-radius:20px;overflow:hidden;background:var(--latte);display:block;color:#fff}
+.uc video{width:100%;height:100%;object-fit:cover;display:block}
+.uc::after{content:"";position:absolute;inset:auto 0 0;height:42%;background:linear-gradient(180deg,transparent,rgba(25,18,15,.78))}
+.uc .lb{position:absolute;left:14px;right:14px;bottom:14px;z-index:1}
+.uc b{display:block;font-family:Fraunces,serif;font-weight:400;font-size:22px;line-height:1.1}
+.uc span{display:inline-flex;align-items:center;gap:6px;margin-top:6px;background:rgba(255,255,255,.92);color:var(--ink);border-radius:999px;padding:4px 11px;font-size:12.5px;font-weight:600}
+a.uc span::after{content:"→";color:var(--buy)}
+.uc span{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:600px){.uc{flex-basis:170px}.uc b{font-size:19px}.uc span{font-size:11.5px;padding:4px 9px}}
+@media(prefers-reduced-motion:reduce){.mqt{animation:none}.mq{overflow-x:auto}}
 </style></head><body>
 <div class="announce"><span class="ann-l">Besplatna dostava za porudžbine preko 10.000 RSD · GLS kurirska služba, plaćanje pouzećem · Made in Serbia</span><span class="ann-s">Besplatna dostava preko 10.000 RSD · Pouzećem</span></div>
 <header class="site"><div class="wrap">
@@ -221,6 +237,11 @@ label.f input:focus,label.f textarea:focus{outline:0;border-color:var(--mocha);b
 <q>„Bez @tibba.clothes ne mogu da zamislim trudnoću jer njihove stvari su toliko udobne, pokretljive, mekane i osećaj je kao da nemaš ništa na sebi.“</q><span style="font-size:13px;opacity:.8;margin-top:-8px">— Jelena, o helankama „Balance“</span>
 <a class="btn btn-p" href="helanke.html">Izaberi svoje helanke</a></div>
 </div></div></section>
+
+<section class="ugc" id="price" aria-label="Snimci kupaca"><div class="wrap">
+<div class="sec-head"><span class="eyebrow">Vaše priče</span><h2>Mame pričaju o <em>Tibbi</em></h2><p>Mame koje nose Tibbu, u snimcima sa svojih Instagram profila.</p></div></div>
+<div class="mq" id="mq"><div class="mqt" id="mqt"></div></div>
+</section>
 
 <section class="block" id="prodavnica" style="padding-top:0"><div class="wrap">
 <div class="sec-head"><span class="eyebrow">Prodavnica</span><h2>Sve iz <em>Tibba</em> kolekcije</h2><p>Izaberi boju i veličinu direktno sa liste. Dostava GLS-om širom Srbije, besplatna za porudžbine preko 10.000 RSD.</p></div>
@@ -404,4 +425,12 @@ window.addEventListener('hashchange',fromHash);
 drawGrid();fromHash();
 // respect reduced motion: keep the poster frame instead of the looping reel
 if(matchMedia('(prefers-reduced-motion: reduce)').matches){const v=$('#heroVid');v.removeAttribute('autoplay');v.pause()}
+// Customer clips: brand's "Vaši utisci" highlight and collab reels (brief.md). First names as published.
+const UGC=[['tamara','Tamara','Cool Moms majica',{qv:29397}],['jelena','Jelena','Helanke „Balance“',{qv:33715}],['kristina','Kristina','Pantalone za trudnice',{f:'pant'}],['teodora-set','Teodora','Set za trudnice'],['aleksandra','Aleksandra','Haljina',{f:'halj'}],['tea','Tea','Majica za dojenje',{f:'doj'}],['teodora-paket','Teodora','Tibba paket'],['kristina-farmerke','Kristina','Farmerke',{f:'pant'}]];
+function ucard([k,n,p,l],dup){const lb=`<div class="lb"><b>${n}</b><span>${p}</span></div>`,v=`<video muted loop playsinline preload="none" poster="img/ugc/${k}.webp" data-src="img/ugc/${k}.mp4"></video>`,a=dup?' aria-hidden="true" tabindex="-1"':'';
+ if(l&&l.qv)return `<a class="uc" href="#" data-qv="${l.qv}"${a}>${v}${lb}</a>`;if(l&&l.f)return `<a class="uc" href="#f-${l.f}"${a}>${v}${lb}</a>`;return `<div class="uc"${dup?' aria-hidden="true"':''}>${v}${lb}</div>`}
+$('#mqt').innerHTML=UGC.map(x=>ucard(x)).join('')+UGC.map(x=>ucard(x,1)).join('');
+// play only the clips that are on screen
+const uio=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;if(e.isIntersecting){if(!v.src)v.src=v.dataset.src;v.play().catch(()=>{})}else v.pause()}),{threshold:.2});
+document.querySelectorAll('#mqt video').forEach(v=>uio.observe(v));
 </script></body></html>
