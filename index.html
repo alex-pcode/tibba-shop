@@ -186,6 +186,7 @@ label.f input:focus,label.f textarea:focus{outline:0;border-color:var(--mocha);b
 .shopbg .hrs{background:#fff;border-radius:20px;padding:22px;font-size:15px}.shopbg .hrs div{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line)}.shopbg .hrs div:last-child{border:0}
 @media(max-width:800px){.shopbg{grid-template-columns:minmax(0,1fr);padding:28px 22px}}
 .faqw{max-width:820px}
+.hfig video{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 45%;border-radius:28px;box-shadow:var(--shadow);background:var(--latte)}
 </style></head><body>
 <div class="announce"><span class="ann-l">Besplatna dostava za porudžbine preko 10.000 RSD · GLS kurirska služba, plaćanje pouzećem · Made in Serbia</span><span class="ann-s">Besplatna dostava preko 10.000 RSD · Pouzećem</span></div>
 <header class="site"><div class="wrap">
@@ -200,8 +201,8 @@ label.f input:focus,label.f textarea:focus{outline:0;border-color:var(--mocha);b
 <p class="lead">Pažljivo birani materijali i krojevi koji se prilagođavaju tvom telu: tokom trudnoće, dojenja i dugo posle toga.</p>
 <div class="ctas"><a class="btn btn-ink" href="#prodavnica">Pogledaj kolekciju</a><a class="btn btn-g" href="helanke.html">Bestseler: helanke &rarr;</a></div>
 <div class="trust"><div><b>10+</b>godina Tibba<br>helanki</div><div><b>47.500</b>pratilaca<br>na Instagramu</div><div><b>100%</b>proizvodnja<br>u Srbiji</div></div></div>
-<div class="hfig"><img src="img/hero-knit.webp" alt="Trudnica u kremastom pletenom kompletu Cotton Form set" fetchpriority="high"><span class="tag2">NOVO</span>
-<button class="tag" data-qv="36210" type="button" style="text-align:left"><img src="img/p36210-1.webp" alt=""><div><b>Cotton Form set</b><span>Pleteni komplet, 100% pamuk · 13.790 RSD</span></div></button></div>
+<div class="hfig"><video id="heroVid" src="img/hero.mp4" poster="img/hero-poster.webp" autoplay muted loop playsinline preload="auto" aria-label="Dve trudnice u istoj crnoj haljini Fiorella sreću se na ulici"></video>
+<button class="tag" data-qv="24618" type="button" style="text-align:left"><img src="img/p24618-1.webp" alt=""><div><b>Haljina „Fiorella“</b><span>Iz našeg reela sa 76K pregleda · 4.590 RSD</span></div></button></div>
 </div></section>
 
 <section class="block" style="padding-top:40px"><div class="wrap">
@@ -401,4 +402,6 @@ $('#moreBtn').onclick=()=>{shown+=12;drawGrid()};
 function fromHash(){const m=/^#f-(\w+)/.exec(location.hash);if(!m)return;f=m[1];shown=12;drawGrid();history.replaceState(null,'',location.pathname);$('#prodavnica').scrollIntoView({behavior:'smooth'})}
 window.addEventListener('hashchange',fromHash);
 drawGrid();fromHash();
+// respect reduced motion: keep the poster frame instead of the looping reel
+if(matchMedia('(prefers-reduced-motion: reduce)').matches){const v=$('#heroVid');v.removeAttribute('autoplay');v.pause()}
 </script></body></html>
